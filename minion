@@ -1,0 +1,8 @@
+# Kohana Minion completion by Evan Purkhiser <evanpurkhiser@gmail.com>
+
+_minion_complete_tasks()
+{
+
+}
+
+complete -F _minion_complete_tasks minion
