@@ -10,6 +10,9 @@ _minion_complete_tasks()
 	# Get the tasks from them minion script
 	tasks="$(echo "$(${script})" | grep \\* | awk '{print $2}')"
 
+	# Generate the suggested tasks
+	COMPREPLY=( $(compgen -W "${tasks}" -- "${COMP_WORDS[COMP_CWORD]}") )
+	return 0
 }
 
 complete -F _minion_complete_tasks minion
