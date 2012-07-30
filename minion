@@ -6,15 +6,22 @@ _minion_complete_tasks()
 
 	# Get the path to the minion script
 	script="$(echo "${COMP_LINE}" | awk '{print $1}')"
+	script="$(readlink -e "${script}")"
 
-	# Get the tasks from them minion script
-	tasks="$(echo "$(${script})" | grep \\* | awk '{print $2}')"
+	# Cache the tasks available to this minion
+	if [[ ! _minion_tasks_list["${script}"] ]]; then
+		tasks="$(echo "$(${script})" | grep \\* | awk '{print $2}')"
+		_minion_tasks_list["${script}"]="${tasks}"
+	fi
 
-	current="$(_get_cword :)"
+	# Get the task list from the cache
+	tasks="${_minion_tasks_list["${script}"]}"
 
 	# Generate the suggested tasks
+	current="$(_get_cword :)"
 	COMPREPLY=( $(compgen -W "${tasks}" -- "${current}") )
 	__ltrim_colon_completions "${current}"
 }
 
+declare -A _minion_tasks_list
 complete -F _minion_complete_tasks minion
