@@ -2,7 +2,7 @@
 
 _minion_complete_tasks()
 {
-	local script tasks
+	local script tasks current
 
 	# Get the path to the minion script
 	script="$(echo "${COMP_LINE}" | awk '{print $1}')"
@@ -10,9 +10,11 @@ _minion_complete_tasks()
 	# Get the tasks from them minion script
 	tasks="$(echo "$(${script})" | grep \\* | awk '{print $2}')"
 
+	current="$(_get_cword :)"
+
 	# Generate the suggested tasks
-	COMPREPLY=( $(compgen -W "${tasks}" -- "${COMP_WORDS[COMP_CWORD]}") )
-	return 0
+	COMPREPLY=( $(compgen -W "${tasks}" -- "${current}") )
+	__ltrim_colon_completions "${current}"
 }
 
 complete -F _minion_complete_tasks minion
