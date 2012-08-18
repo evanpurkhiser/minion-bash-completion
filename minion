@@ -8,6 +8,9 @@ _minion_complete_tasks()
 	script="$(echo "${COMP_LINE}" | awk '{print $1}')"
 	script="$(readlink -e "${script}")"
 
+	# Make sure the script exists
+	[ ! "${script}" ] && return
+
 	# Cache the tasks available to this minion
 	if [[ ! ${_minion_tasks_list["${script}"]} ]]; then
 		tasks="$(echo "$(${script})" | grep \\* | awk '{print $2}')"
