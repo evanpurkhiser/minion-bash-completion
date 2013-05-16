@@ -17,3 +17,7 @@ Or just reload your console
 Simply place the auto-completion script into your `/etc/bash_completion.d/` directory.
 
     sudo wget https://raw.github.com/EvanPurkhiser/minion-bash-completion/master/minion -P /etc/bash_completion.d/
+
+Or if you don't want to install it system wide you can just source it in your bashrc
+
+    source ~/path/to/minion-completion
